@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom'
 
 const tools = [
-  { to: '/merge', title: 'รวม PDF', desc: 'รวมหลายไฟล์เป็นไฟล์เดียว' },
-  { to: '/split', title: 'แยกหน้า PDF', desc: 'ดึงเฉพาะหน้าที่ต้องการ' },
-  { to: '/rotate', title: 'หมุนหน้า PDF', desc: 'หมุนหน้าที่วางผิดทิศ' },
+  {
+    to: '/merge',
+    title: 'จัดการหน้า PDF',
+    desc: 'รวมไฟล์ จัดเรียง ลบ และหมุนหน้า ด้วยการลากวาง',
+  },
+  {
+    to: '/split',
+    title: 'ดึงหน้าด้วยเลขหน้า',
+    desc: 'พิมพ์ช่วงหน้า เช่น 1-3, 5, 8-10 แล้วดึงออกมาเป็นไฟล์ใหม่',
+  },
 ]
 
 export default function Home() {

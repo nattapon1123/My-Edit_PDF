@@ -2,9 +2,8 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 const links = [
   { to: '/', label: 'หน้าแรก' },
-  { to: '/merge', label: 'รวม PDF' },
-  { to: '/split', label: 'แยกหน้า' },
-  { to: '/rotate', label: 'หมุนหน้า' },
+  { to: '/merge', label: 'จัดการหน้า PDF' },
+  { to: '/split', label: 'ดึงหน้าด้วยเลขหน้า' },
 ]
 
 export default function Layout() {
