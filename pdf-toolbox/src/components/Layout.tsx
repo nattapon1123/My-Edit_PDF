@@ -4,6 +4,7 @@ const links = [
   { to: '/', label: 'หน้าแรก' },
   { to: '/merge', label: 'จัดการหน้า PDF' },
   { to: '/split', label: 'ดึงหน้าด้วยเลขหน้า' },
+  { to: '/image', label: 'บีบอัด/แปลงรูป' },
 ]
 
 export default function Layout() {

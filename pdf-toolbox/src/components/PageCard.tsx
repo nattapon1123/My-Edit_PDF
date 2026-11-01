@@ -78,7 +78,7 @@ export default function PageCard({ item, order, onRotate, onDelete }: Props) {
       </div>
 
       {/* กล่องรูป: หมุนรูปด้วย CSS */}
-      <div className="flex aspect-[3/4] items-center justify-center overflow-hidden">
+      <div className="flex aspect-3/4 items-center justify-center overflow-hidden">
         <img
           src={item.thumb}
           alt={`หน้า ${order}`}

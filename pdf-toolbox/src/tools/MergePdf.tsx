@@ -3,6 +3,7 @@ import FileDropzone from '../components/FileDropzone'
 import PageCard from '../components/PageCard'
 import { mergePages } from '../lib/mergePdf'
 import { downloadBytes } from '../lib/download'
+import { makeImageThumb } from '../lib/imageThumb'
 import { renderThumbs } from '../lib/renderThumbs'
 import type { PageItem } from '../lib/types'
 import {
@@ -19,6 +20,11 @@ import {
   arrayMove,
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
+
+const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+
+const isPdf = (f: File) => f.type === 'application/pdf'
+const isImage = (f: File) => IMAGE_TYPES.includes(f.type)
 
 export default function MergePdf() {
   const [pages, setPages] = useState<PageItem[]>([])
@@ -63,31 +69,48 @@ export default function MergePdf() {
   }
 
   const addFiles = async (newFiles: File[]) => {
-    const pdfs = newFiles.filter((f) => f.type === 'application/pdf')
-    if (pdfs.length === 0) return
+    const accepted = newFiles.filter((f) => isPdf(f) || isImage(f))
+    if (accepted.length === 0) return
 
     setLoading(true)
 
-    for (const file of pdfs) {
+    for (const file of accepted) {
       const fileId = crypto.randomUUID()
       const fileColor = fileCountRef.current++
       filesRef.current.set(fileId, file)
 
       try {
         setStatus(`กำลังอ่าน ${file.name}...`)
-        await renderThumbs(file, (p, total) => {
+
+        if (isPdf(file)) {
+          await renderThumbs(file, (p, total) => {
+            const item: PageItem = {
+              id: crypto.randomUUID(),
+              fileId,
+              fileName: file.name,
+              fileColor,
+              kind: 'pdf',
+              pageIndex: p.pageIndex,
+              thumb: p.thumb,
+              rotation: 0,
+            }
+            setPages((prev) => [...prev, item])
+            setStatus(`${file.name}: ${p.pageIndex + 1}/${total}`)
+          })
+        } else {
+          const thumb = await makeImageThumb(file)
           const item: PageItem = {
             id: crypto.randomUUID(),
             fileId,
             fileName: file.name,
             fileColor,
-            pageIndex: p.pageIndex,
-            thumb: p.thumb,
+            kind: 'image',
+            pageIndex: 0,
+            thumb,
             rotation: 0,
           }
           setPages((prev) => [...prev, item])
-          setStatus(`${file.name}: ${p.pageIndex + 1}/${total}`)
-        })
+        }
       } catch (e) {
         console.error(e)
         setStatus(`อ่านไฟล์ ${file.name} ไม่ได้ ไฟล์อาจเสียหรือมีรหัสผ่าน`)
@@ -123,7 +146,7 @@ export default function MergePdf() {
     <div className="mx-auto max-w-5xl space-y-4 p-6">
       <h1 className="text-2xl font-bold">จัดการหน้า PDF</h1>
       <FileDropzone
-        accept="application/pdf"
+        accept="application/pdf,image/jpeg,image/png,image/webp"
         multiple
         disabled={loading}
         compact={pages.length > 0}
