@@ -5,6 +5,8 @@ import MergePdf from './tools/MergePdf'
 import SplitPdf from './tools/SplitPdf'
 import ImageTool from './tools/ImageTool'
 import PdfToImage from './tools/PdfToImage'
+import PageNumbers from './tools/PageNumbers'
+import Watermark from './tools/Watermark'
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
           <Route path="/split" element={<SplitPdf />} />
           <Route path="/image" element={<ImageTool />} />
           <Route path="/pdf-to-image" element={<PdfToImage />} />
+          <Route path="/page-numbers" element={<PageNumbers />} />
+          <Route path="/watermark" element={<Watermark />} />
         </Route>
       </Routes>
     </BrowserRouter>
