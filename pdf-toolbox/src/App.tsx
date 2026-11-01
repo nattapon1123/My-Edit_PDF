@@ -7,6 +7,8 @@ import ImageTool from './tools/ImageTool'
 import PdfToImage from './tools/PdfToImage'
 import PageNumbers from './tools/PageNumbers'
 import Watermark from './tools/Watermark'
+import CropPdf from './tools/CropPdf'
+import ScanPdf from './tools/ScanPdf'
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="/pdf-to-image" element={<PdfToImage />} />
           <Route path="/page-numbers" element={<PageNumbers />} />
           <Route path="/watermark" element={<Watermark />} />
+          <Route path="/crop" element={<CropPdf />} />
+          <Route path="/scan" element={<ScanPdf />} />
         </Route>
       </Routes>
     </BrowserRouter>

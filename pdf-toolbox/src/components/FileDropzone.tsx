@@ -31,7 +31,16 @@ export default function FileDropzone({
 
   return (
     <div
+      role="button"
+      tabIndex={disabled ? -1 : 0}
+      aria-disabled={disabled}
       onClick={() => !disabled && inputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          inputRef.current?.click()
+        }
+      }}
       onDragOver={(e) => {
         e.preventDefault()
         if (!disabled) setDragging(true)
@@ -60,6 +69,7 @@ export default function FileDropzone({
         multiple={multiple}
         disabled={disabled}
         className="hidden"
+        onClick={(e) => e.stopPropagation()}
         onChange={(e) => {
           handle(e.target.files)
           e.target.value = '' // ให้เลือกไฟล์เดิมซ้ำได้

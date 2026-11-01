@@ -161,7 +161,7 @@ export default function MergePdf() {
             <p className="font-medium">ทั้งหมด {pages.length} หน้า</p>
             <button
               onClick={clearAll}
-              disabled={loading}
+              disabled={loading || merging}
               className="text-sm text-red-600 disabled:opacity-40"
             >
               ล้างทั้งหมด

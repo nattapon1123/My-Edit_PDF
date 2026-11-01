@@ -21,7 +21,7 @@ export default function Watermark() {
   const [text, setText] = useState('CONFIDENTIAL')
   const [fontSize, setFontSize] = useState('48')
   const [color, setColor] = useState('#888888')
-  const [opacity, setOpacity] = useState(0.3)
+  const [transparency, setTransparency] = useState(0.7)
   const [angle, setAngle] = useState('45')
   const [mode, setMode] = useState<'center' | 'tile'>('center')
   const [bold, setBold] = useState(true)
@@ -78,7 +78,7 @@ export default function Watermark() {
         text: text.trim(),
         fontSize: size,
         color: hexToRgb(color),
-        opacity,
+        opacity: 1 - transparency,
         angle: ang,
         mode,
         bold,
@@ -195,15 +195,15 @@ export default function Watermark() {
             </label>
             <label className="text-sm">
               <span className="mb-1 block font-medium">
-                ความโปร่งใส: {Math.round(opacity * 100)}%
+                ความโปร่งใส: {Math.round(transparency * 100)}%
               </span>
               <input
                 type="range"
-                min={0.05}
-                max={1}
+                min={0}
+                max={0.95}
                 step={0.05}
-                value={opacity}
-                onChange={(e) => setOpacity(parseFloat(e.target.value))}
+                value={transparency}
+                onChange={(e) => setTransparency(parseFloat(e.target.value))}
                 disabled={busy}
                 className="mt-2 w-full"
               />
