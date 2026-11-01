@@ -1,40 +1,50 @@
 import { Link } from 'react-router-dom'
-
-const tools = [
-  {
-    to: '/merge',
-    title: 'จัดการหน้า PDF',
-    desc: 'รวมไฟล์ จัดเรียง ลบ และหมุนหน้า ด้วยการลากวาง',
-  },
-  {
-    to: '/split',
-    title: 'ดึงหน้าด้วยเลขหน้า',
-    desc: 'พิมพ์ช่วงหน้า เช่น 1-3, 5, 8-10 แล้วดึงออกมาเป็นไฟล์ใหม่',
-  },
-  {
-    to: '/image',
-    title: 'บีบอัด / ย่อ / แปลงรูป',
-    desc: 'ลดขนาดไฟล์รูป ย่อขนาด และแปลงเป็น JPG, PNG, WebP',
-  },
-]
+import { categories } from '../lib/toolsData'
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-1 text-3xl font-bold">PDF Toolbox</h1>
-      <p className="mb-6 text-gray-600">ประมวลผลในเบราว์เซอร์ ไฟล์ไม่ถูกอัปโหลดไปไหน</p>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {tools.map((t) => (
-          <Link
-            key={t.to}
-            to={t.to}
-            className="rounded-xl border p-4 transition hover:shadow"
-          >
-            <h2 className="font-semibold">{t.title}</h2>
-            <p className="text-sm text-gray-600">{t.desc}</p>
-          </Link>
-        ))}
+    <div className="mx-auto max-w-4xl space-y-8 p-6">
+      <div>
+        <h1 className="mb-1 text-3xl font-bold">PDF Toolbox</h1>
+        <p className="text-gray-600">
+          ประมวลผลในเบราว์เซอร์ ไฟล์ไม่ถูกอัปโหลดไปไหน
+        </p>
       </div>
+
+      {categories.map((cat) => (
+        <section key={cat.name}>
+          <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-gray-500">
+            {cat.name}
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {cat.tools.map((t) =>
+              t.to ? (
+                <Link
+                  key={t.title}
+                  to={t.to}
+                  className="rounded-xl border p-4 transition hover:shadow"
+                >
+                  <h3 className="font-semibold">{t.title}</h3>
+                  <p className="text-sm text-gray-600">{t.desc}</p>
+                </Link>
+              ) : (
+                <div
+                  key={t.title}
+                  className="rounded-xl border border-dashed p-4 opacity-60"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-semibold text-gray-500">{t.title}</h3>
+                    <span className="shrink-0 rounded bg-gray-100 px-1.5 text-[10px] text-gray-500">
+                      เร็วๆ นี้
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500">{t.desc}</p>
+                </div>
+              )
+            )}
+          </div>
+        </section>
+      ))}
     </div>
   )
 }

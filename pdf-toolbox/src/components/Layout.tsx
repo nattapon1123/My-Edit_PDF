@@ -1,28 +1,15 @@
-import { NavLink, Outlet } from 'react-router-dom'
-
-const links = [
-  { to: '/', label: 'หน้าแรก' },
-  { to: '/merge', label: 'จัดการหน้า PDF' },
-  { to: '/split', label: 'ดึงหน้าด้วยเลขหน้า' },
-  { to: '/image', label: 'บีบอัด/แปลงรูป' },
-]
+import { Link, Outlet } from 'react-router-dom'
+import MegaMenu from './MegaMenu'
 
 export default function Layout() {
   return (
     <div className="min-h-screen">
-      <nav className="flex gap-4 border-b px-6 py-3">
-        {links.map((l) => (
-          <NavLink
-            key={l.to}
-            to={l.to}
-            className={({ isActive }) =>
-              isActive ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-gray-900'
-            }
-          >
-            {l.label}
-          </NavLink>
-        ))}
-      </nav>
+      <header className="flex items-center gap-4 border-b px-6 py-3">
+        <MegaMenu />
+        <Link to="/" className="text-lg font-bold">
+          PDF Toolbox
+        </Link>
+      </header>
       <Outlet />
     </div>
   )

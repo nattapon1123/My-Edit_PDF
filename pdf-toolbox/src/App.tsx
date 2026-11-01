@@ -4,6 +4,7 @@ import Home from './tools/Home'
 import MergePdf from './tools/MergePdf'
 import SplitPdf from './tools/SplitPdf'
 import ImageTool from './tools/ImageTool'
+import PdfToImage from './tools/PdfToImage'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/merge" element={<MergePdf />} />
           <Route path="/split" element={<SplitPdf />} />
           <Route path="/image" element={<ImageTool />} />
+          <Route path="/pdf-to-image" element={<PdfToImage />} />
         </Route>
       </Routes>
     </BrowserRouter>
