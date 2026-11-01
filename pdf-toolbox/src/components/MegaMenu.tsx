@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { categories, type Tool } from '../lib/toolsData'
 
 // รายการเครื่องมือหนึ่งแถว (ใช้ร่วมกันทั้งเดสก์ท็อปและมือถือ)
@@ -30,12 +30,6 @@ export default function MegaMenu() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null) // หมวดที่กางบนมือถือ
   const wrapRef = useRef<HTMLDivElement>(null)
-  const location = useLocation()
-
-  // เปลี่ยนหน้าแล้วปิดเมนู
-  useEffect(() => {
-    setOpen(false)
-  }, [location.pathname])
 
   // กดนอกเมนู หรือกด Esc แล้วปิด
   useEffect(() => {

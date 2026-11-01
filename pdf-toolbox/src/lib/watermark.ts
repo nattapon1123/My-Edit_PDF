@@ -1,5 +1,4 @@
 import { PDFDocument, rgb, degrees } from 'pdf-lib'
-import fontkit from '@pdf-lib/fontkit'
 
 export type WatermarkOptions = {
   text: string
@@ -24,6 +23,7 @@ export async function addWatermark(
   opts: WatermarkOptions
 ): Promise<Uint8Array> {
   const doc = await PDFDocument.load(await file.arrayBuffer())
+  const fontkit = (await import('@pdf-lib/fontkit')).default
   doc.registerFontkit(fontkit)
   const font = await doc.embedFont(await loadFont(opts.bold), { subset: true })
 

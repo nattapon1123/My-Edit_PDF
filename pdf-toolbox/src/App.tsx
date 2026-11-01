@@ -1,14 +1,24 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './tools/Home'
-import MergePdf from './tools/MergePdf'
-import SplitPdf from './tools/SplitPdf'
-import ImageTool from './tools/ImageTool'
-import PdfToImage from './tools/PdfToImage'
-import PageNumbers from './tools/PageNumbers'
-import Watermark from './tools/Watermark'
-import CropPdf from './tools/CropPdf'
-import ScanPdf from './tools/ScanPdf'
+
+const MergePdf = lazy(() => import('./tools/MergePdf'))
+const SplitPdf = lazy(() => import('./tools/SplitPdf'))
+const ImageTool = lazy(() => import('./tools/ImageTool'))
+const PdfToImage = lazy(() => import('./tools/PdfToImage'))
+const PageNumbers = lazy(() => import('./tools/PageNumbers'))
+const Watermark = lazy(() => import('./tools/Watermark'))
+const CropPdf = lazy(() => import('./tools/CropPdf'))
+const ScanPdf = lazy(() => import('./tools/ScanPdf'))
+
+function ToolLoading() {
+  return (
+    <p role="status" className="mx-auto max-w-4xl p-6 text-gray-600">
+      กำลังโหลดเครื่องมือ...
+    </p>
+  )
+}
 
 export default function App() {
   return (
@@ -16,14 +26,70 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/merge" element={<MergePdf />} />
-          <Route path="/split" element={<SplitPdf />} />
-          <Route path="/image" element={<ImageTool />} />
-          <Route path="/pdf-to-image" element={<PdfToImage />} />
-          <Route path="/page-numbers" element={<PageNumbers />} />
-          <Route path="/watermark" element={<Watermark />} />
-          <Route path="/crop" element={<CropPdf />} />
-          <Route path="/scan" element={<ScanPdf />} />
+          <Route
+            path="/merge"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <MergePdf />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/split"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <SplitPdf />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/image"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <ImageTool />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/pdf-to-image"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <PdfToImage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/page-numbers"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <PageNumbers />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/watermark"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <Watermark />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/crop"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <CropPdf />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/scan"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <ScanPdf />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
