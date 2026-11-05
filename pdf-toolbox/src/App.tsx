@@ -11,6 +11,7 @@ const PageNumbers = lazy(() => import('./tools/PageNumbers'))
 const Watermark = lazy(() => import('./tools/Watermark'))
 const CropPdf = lazy(() => import('./tools/CropPdf'))
 const ScanPdf = lazy(() => import('./tools/ScanPdf'))
+const CompressPdf = lazy(() => import('./tools/CompressPdf'))
 const RepairPdf = lazy(() => import('./tools/RepairPdf'))
 const OcrPdf = lazy(() => import('./tools/OcrPdf'))
 const EditPdf = lazy(() => import('./tools/EditPdf'))
@@ -114,6 +115,14 @@ export default function App() {
             element={
               <Suspense fallback={<ToolLoading />}>
                 <EditPdf />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/compress"
+            element={
+              <Suspense fallback={<ToolLoading />}>
+                <CompressPdf />
               </Suspense>
             }
           />

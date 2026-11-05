@@ -1,32 +1,27 @@
-# React + TypeScript + Vite
+# PDF Toolbox
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Run locally
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```powershell
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+The PDF compression tool calls the backend at `http://localhost:8000` by
+default. To use another backend locally, copy `.env.example` to `.env.local`
+and set `VITE_API_URL` to the backend base URL.
+
+## Deploy to Cloudflare Pages
+
+1. Deploy the `backend` directory as a Docker service and note its public base
+   URL.
+2. In Cloudflare Pages, set the build command to `npm run build`, the output
+   directory to `dist`, and the root directory to `pdf-toolbox`.
+3. Add `VITE_API_URL` as a Pages build environment variable with the backend
+   base URL, then deploy the frontend.
+4. Set `BACKEND_CORS_ORIGINS` on the backend to the exact Cloudflare Pages
+   origin, such as `https://your-project.pages.dev`, then redeploy/restart the
+   backend.
+
+The Pages `_redirects` file routes direct requests for frontend paths to the
+single-page app.

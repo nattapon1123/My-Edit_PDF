@@ -72,7 +72,6 @@ export default function EditPdf() {
   useEffect(() => {
     if (!file) return
     const id = ++reqRef.current
-    setLoadingPage(true)
     renderPageForEdit(file, pageIndex)
       .then((p) => {
         if (id === reqRef.current) setPreview(p)
@@ -120,6 +119,7 @@ export default function EditPdf() {
       setPreview(null)
       setPageIndex(0)
       setTotal(count)
+      setLoadingPage(true)
       setFile(pdf)
     } catch (e) {
       console.error(e)
@@ -262,7 +262,10 @@ export default function EditPdf() {
 
           <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => setPageIndex((p) => p - 1)}
+              onClick={() => {
+                setLoadingPage(true)
+                setPageIndex((p) => p - 1)
+              }}
               disabled={busy || pageIndex === 0}
               className="rounded border px-3 py-1 disabled:opacity-40"
             >
@@ -272,7 +275,10 @@ export default function EditPdf() {
               หน้า {pageIndex + 1} / {total}
             </span>
             <button
-              onClick={() => setPageIndex((p) => p + 1)}
+              onClick={() => {
+                setLoadingPage(true)
+                setPageIndex((p) => p + 1)
+              }}
               disabled={busy || pageIndex >= total - 1}
               className="rounded border px-3 py-1 disabled:opacity-40"
             >

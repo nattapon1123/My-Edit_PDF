@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import tempfile
 from typing import Literal
@@ -10,8 +11,11 @@ from fastapi.responses import Response
 app = FastAPI(title="PDF Toolbox API")
 
 ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://YOUR-SITE.pages.dev",  # ใส่โดเมนจริงทีหลัง
+    origin.strip()
+    for origin in os.getenv(
+        "BACKEND_CORS_ORIGINS", "http://localhost:5173"
+    ).split(",")
+    if origin.strip()
 ]
 
 app.add_middleware(
@@ -51,7 +55,7 @@ async def compress(
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="ต้องเป็นไฟล์ PDF เท่านั้น")
 
-    data = await file.read()
+    data = await file.read(MAX_SIZE + 1)
     if len(data) > MAX_SIZE:
         raise HTTPException(status_code=413, detail="ไฟล์ใหญ่เกิน 50 MB")
 
@@ -62,9 +66,13 @@ async def compress(
         with open(in_path, "wb") as f:
             f.write(data)
 
+        gs_bin = shutil.which("gs") or shutil.which("gswin64c")
+        if gs_bin is None:
+            raise HTTPException(status_code=500, detail="ไม่พบ Ghostscript ในเครื่อง")
+
         result = subprocess.run(
             [
-                "gs",
+                gs_bin,
                 "-sDEVICE=pdfwrite",
                 "-dCompatibilityLevel=1.5",
                 f"-dPDFSETTINGS={GS_PRESETS[level]}",
