@@ -48,9 +48,10 @@ export async function addPageNumbers(
 
     // ขนาดหน้าที่ผู้ใช้เห็นจริงหลังหมุนแล้ว
     const rot = ((page.getRotation().angle % 360) + 360) % 360
-    const { width: w, height: h } = page.getSize()
-    const viewW = rot === 90 || rot === 270 ? h : w
-    const viewH = rot === 90 || rot === 270 ? w : h
+    const box = page.getCropBox()
+    const { x: boxX, y: boxY, width: boxW, height: boxH } = box
+    const viewW = rot === 90 || rot === 270 ? boxH : boxW
+    const viewH = rot === 90 || rot === 270 ? boxW : boxH
 
     // ตำแหน่งบนหน้าที่ผู้ใช้เห็น (จุด 0,0 อยู่มุมล่างซ้ายของมุมมอง)
     let vx: number
@@ -68,17 +69,20 @@ export async function addPageNumbers(
     let y = vy
     let textRotate = 0
     if (rot === 90) {
-      x = vy
-      y = viewW - vx
-      textRotate = -90
+      x = boxX + viewH - vy
+      y = boxY + vx
+      textRotate = 90
     } else if (rot === 180) {
-      x = w - vx
-      y = h - vy
+      x = boxX + boxW - vx
+      y = boxY + boxH - vy
       textRotate = 180
     } else if (rot === 270) {
-      x = viewH - vy
-      y = vx
-      textRotate = 90
+      x = boxX + vy
+      y = boxY + viewW - vx
+      textRotate = -90
+    } else {
+      x = boxX + vx
+      y = boxY + vy
     }
 
     page.drawText(text, {

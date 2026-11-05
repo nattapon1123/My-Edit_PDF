@@ -49,23 +49,27 @@ export async function addWatermark(
     const vy = cy - (textW / 2) * sin - (textH / 2) * cos
 
     const rot = ((page.getRotation().angle % 360) + 360) % 360
-    const { width: w, height: h } = page.getSize()
+    const box = page.getCropBox()
+    const { x: boxX, y: boxY, width: boxW, height: boxH } = box
 
     let x = vx
     let y = vy
     let textAngle = opts.angle
     if (rot === 90) {
-      x = vy
-      y = viewW - vx
-      textAngle = opts.angle - 90
+      x = boxX + viewH - vy
+      y = boxY + vx
+      textAngle = opts.angle + 90
     } else if (rot === 180) {
-      x = w - vx
-      y = h - vy
+      x = boxX + boxW - vx
+      y = boxY + boxH - vy
       textAngle = opts.angle + 180
     } else if (rot === 270) {
-      x = viewH - vy
-      y = vx
-      textAngle = opts.angle + 90
+      x = boxX + vy
+      y = boxY + viewW - vx
+      textAngle = opts.angle - 90
+    } else {
+      x = boxX + vx
+      y = boxY + vy
     }
 
     page.drawText(opts.text, {
@@ -83,9 +87,9 @@ export async function addWatermark(
     if (!targets.has(i)) return
 
     const rot = ((page.getRotation().angle % 360) + 360) % 360
-    const { width: w, height: h } = page.getSize()
-    const viewW = rot === 90 || rot === 270 ? h : w
-    const viewH = rot === 90 || rot === 270 ? w : h
+    const { width: boxW, height: boxH } = page.getCropBox()
+    const viewW = rot === 90 || rot === 270 ? boxH : boxW
+    const viewH = rot === 90 || rot === 270 ? boxW : boxH
 
     if (opts.mode === 'center') {
       drawCentered(page, viewW / 2, viewH / 2, viewW, viewH)
