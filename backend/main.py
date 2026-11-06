@@ -11,11 +11,8 @@ from fastapi.responses import Response
 app = FastAPI(title="PDF Toolbox API")
 
 ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.getenv(
-        "BACKEND_CORS_ORIGINS", "http://localhost:5173"
-    ).split(",")
-    if origin.strip()
+    "http://localhost:5173",
+    "https://my-pdf-edit.nattapon-sae.workers.dev",
 ]
 
 app.add_middleware(
