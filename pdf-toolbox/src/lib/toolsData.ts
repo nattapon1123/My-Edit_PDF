@@ -2,6 +2,7 @@ export type Tool = {
   title: string
   desc: string
   to?: string // ไม่มี = ยังไม่ได้ทำ (แสดงป้าย "เร็วๆ นี้")
+  status?: 'maintenance'
 }
 
 export type Category = {
@@ -22,7 +23,7 @@ export const categories: Category[] = [
     name: 'เพิ่มประสิทธิภาพ',
     tools: [
       { title: 'บีบอัด / ย่อ / แปลงรูป', desc: 'ลดขนาดไฟล์รูป ย่อขนาด และแปลงเป็น JPG, PNG, WebP', to: '/image' },
-      { title: 'บีบอัด PDF', desc: 'ลดขนาดไฟล์ PDF ได้ 3 ระดับ คุณภาพสูง สมดุล และลดขนาดมาก', to: '/compress' },
+      { title: 'บีบอัด PDF', desc: 'ลดขนาดไฟล์ PDF ได้ 3 ระดับ คุณภาพสูง สมดุล และลดขนาดมาก', to: '/compress', status: 'maintenance' },
       { title: 'ซ่อม PDF', desc: 'กู้ไฟล์ PDF ที่เสีย ซ่อมโครงสร้างไฟล์ หรือสร้างใหม่จากภาพของแต่ละหน้า', to: '/repair' },
       { title: 'OCR PDF', desc: 'แปลงไฟล์สแกนเป็น PDF ที่ค้นหาและคัดลอกข้อความได้ รองรับไทยและอังกฤษ', to: '/ocr' },
     ],

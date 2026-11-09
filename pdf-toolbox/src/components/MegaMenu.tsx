@@ -4,12 +4,16 @@ import { categories, type Tool } from '../lib/toolsData'
 
 // รายการเครื่องมือหนึ่งแถว (ใช้ร่วมกันทั้งเดสก์ท็อปและมือถือ)
 function ToolItem({ tool }: { tool: Tool }) {
-  if (!tool.to) {
+  if (!tool.to || tool.status === 'maintenance') {
     return (
       <li className="flex items-center justify-between gap-2 py-1 text-sm text-gray-400">
         <span>{tool.title}</span>
-        <span className="shrink-0 rounded bg-gray-100 px-1.5 text-[10px] text-gray-500">
-          เร็วๆ นี้
+        <span className={`shrink-0 rounded px-1.5 text-[10px] ${
+          tool.status === 'maintenance'
+            ? 'bg-orange-100 text-orange-700'
+            : 'bg-gray-100 text-gray-500'
+        }`}>
+          {tool.status === 'maintenance' ? 'ปิดปรับปรุง' : 'เร็วๆ นี้'}
         </span>
       </li>
     )

@@ -18,7 +18,7 @@ export default function Home() {
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {cat.tools.map((t) =>
-              t.to ? (
+              t.to && t.status !== 'maintenance' ? (
                 <Link
                   key={t.title}
                   to={t.to}
@@ -30,15 +30,27 @@ export default function Home() {
               ) : (
                 <div
                   key={t.title}
-                  className="rounded-xl border border-dashed p-4 opacity-60"
+                  className={`rounded-xl border p-4 ${
+                    t.status === 'maintenance'
+                      ? 'border-orange-200 bg-orange-50/50'
+                      : 'border-dashed opacity-60'
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold text-gray-500">{t.title}</h3>
-                    <span className="shrink-0 rounded bg-gray-100 px-1.5 text-[10px] text-gray-500">
-                      เร็วๆ นี้
+                    <h3 className={`font-semibold ${t.status === 'maintenance' ? 'text-gray-700' : 'text-gray-500'}`}>
+                      {t.title}
+                    </h3>
+                    <span className={`shrink-0 rounded px-1.5 text-[10px] ${
+                      t.status === 'maintenance'
+                        ? 'bg-orange-100 text-orange-700'
+                        : 'bg-gray-100 text-gray-500'
+                    }`}>
+                      {t.status === 'maintenance' ? 'ปิดปรับปรุง' : 'เร็วๆ นี้'}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500">{t.desc}</p>
+                  <p className={`text-sm ${t.status === 'maintenance' ? 'text-gray-600' : 'text-gray-500'}`}>
+                    {t.desc}
+                  </p>
                 </div>
               )
             )}
